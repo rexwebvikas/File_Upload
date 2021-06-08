@@ -1,24 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
-
-function App() {
+ import 'react-dropzone-uploader/dist/styles.css'
+import Dropzone from 'react-dropzone-uploader'
+  const App = () => {
+   const getUploadParams = ({ meta }) => { return { url: 'https://httpbin.org/post',} }
+   const handleChangeStatus = ({ meta, file }, status) => { console.log(status, meta, file) }
+  const handleSubmit = (files,allFiles) => { 
+    console.log(files.map(f => f.meta))
+    allFiles.forEach(f => f.remove())
+  
+  }
+ 
   return (
+    <>
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>File_Uploaded</h1>
+      <Dropzone
+       getUploadParams={getUploadParams}
+       maxFiles={5}
+      //  maxSizeBytes={1024}
+       onChangeStatus={handleChangeStatus}
+      onSubmit={handleSubmit}
+      inputContent="Drop Files"
+      accept="image/*,audio/*,video/*,"
+    />
     </div>
+    </>
   );
 }
 
